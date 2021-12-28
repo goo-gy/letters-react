@@ -2,10 +2,12 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 //local
 import { Home, Login } from "page";
+import TopHeader from "shared/TopHeader"
 
 function App() {
   return (
     <div className="App">
+      <TopHeader/>
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Login/>} />

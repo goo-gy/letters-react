@@ -5,7 +5,6 @@ import TopHeader from "shared/TopHeader"
 const Login = () => {
     return (
         <div>
-            <TopHeader></TopHeader>
             Login
         </div>
     );

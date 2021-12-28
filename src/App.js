@@ -6,7 +6,7 @@ import TopHeader from "shared/TopHeader"
 
 function App() {
   return (
-    <div className="App">
+    <div className="bg-gradient-to-r from-primaryStart to-primaryEnd min-h-screen">
       <TopHeader/>
       <Routes>
         <Route path="/" element={<Home/>} />

@@ -4,7 +4,7 @@ import TopHeader from "shared/TopHeader"
 
 const Home = () => {
     return (
-        <div>
+        <div className=''>
             Home
         </div>
     );

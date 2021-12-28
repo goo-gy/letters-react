@@ -1,13 +1,13 @@
 import React from 'react';
 import TopHeader from "../shared/TopHeader"
 
-const Home = () => {
+const Login = () => {
     return (
         <div>
             <TopHeader></TopHeader>
-            Home
+            Login
         </div>
     );
 };
 
-export default Home;
+export default Login;

@@ -1,5 +1,6 @@
 import React from 'react';
-import TopHeader from "../shared/TopHeader"
+// local
+import TopHeader from "shared/TopHeader"
 
 const Login = () => {
     return (

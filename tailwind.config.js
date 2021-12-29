@@ -7,8 +7,9 @@ module.exports = {
       colors: {
         'primaryStart': '#5eead4',
         'primaryEnd': '#60a5fa',
+        'header' : 'rgba(39,16,50, 0.6)',
+        'headerText': '#feeeee',
         'emphasis' : '#3b82f6',
-        'primaryText': '#7f0033',
       }
     },
   },

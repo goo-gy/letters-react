@@ -15,7 +15,7 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <Disclosure as="nav" className="bg-emphasis transparent text-tahiti">
+    <Disclosure as="nav" className="bg-header text-tahiti">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -35,6 +35,7 @@ export default function Example() {
                 <div className="flex-shrink-0 flex items-center">
                   <img
                     className="block lg:hidden h-8 w-auto"
+                    // TODO : logo image
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                     alt="Workflow"
                   />
@@ -78,7 +79,8 @@ export default function Example() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        // user Image
+                        src="https://avatars.githubusercontent.com/u/23546441?s=400&u=db7abf2929e5518c12189034dc3fed9bda94f0a6&v=4"
                         alt=""
                       />
                     </Menu.Button>

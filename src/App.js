@@ -10,7 +10,8 @@ function App() {
       <TopHeader/>
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/Dashboard" element={<Home/>} />
+        <Route path="/Login" element={<Login/>} />
       </Routes>
     </div>
   );

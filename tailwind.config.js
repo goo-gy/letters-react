@@ -10,6 +10,7 @@ module.exports = {
         'header' : 'rgba(39,16,50, 0.6)',
         'headerText': '#feeeee',
         'emphasis' : '#3b82f6',
+        section: "rgba(255, 255, 255, 0.5)",
       }
     },
   },

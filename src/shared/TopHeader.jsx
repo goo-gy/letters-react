@@ -4,6 +4,7 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 
 // local
 import Logo from 'asset/img/logo.svg';
+import DarkModeToggle from 'shared/DarkModeToggle';
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
@@ -141,6 +142,7 @@ export default function Example() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
+                <DarkModeToggle />
               </div>
             </div>
           </div>

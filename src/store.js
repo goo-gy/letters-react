@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 
-const actions = {
+const actionTypes = {
   darkMode: {
     toggle: 'darkMode/toggle',
     set: 'darkMode/set',
@@ -12,9 +12,9 @@ const initialState = {
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.darkMode.toggle:
+    case actionTypes.darkMode.toggle:
       return { ...state, darkMode: !state.darkMode };
-    case actions.darkMode.set:
+    case actionTypes.darkMode.set:
       return { ...state, darkMode: action.value };
   }
   return state;
@@ -22,15 +22,17 @@ const reducer = (state = initialState, action) => {
 
 const store = createStore(reducer);
 
-const actionCreator = {
-  darkModeToggle: () => ({
-    type: actions.darkMode.toggle,
-  }),
-  darkModeSet: (value) => ({
-    type: actions.darkMode.set,
-    value: value,
-  }),
+const actions = {
+  darkMode: {
+    toggle: () => ({
+      type: actionTypes.darkMode.toggle,
+    }),
+    set: (value) => ({
+      type: actionTypes.darkMode.set,
+      value: value,
+    }),
+  },
 };
 
-export { actionCreator };
+export { actions };
 export default store;

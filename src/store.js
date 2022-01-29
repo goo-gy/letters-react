@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import { createAction } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 
 const actions = {
   darkMode: {
@@ -11,15 +11,16 @@ const actions = {
 const initialState = {
   darkMode: false,
 };
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actions.darkMode.toggle.type:
-      return { ...state, darkMode: !state.darkMode };
-    case actions.darkMode.set.type:
-      return { ...state, darkMode: action.payload };
-  }
-  return state;
-};
+const reducer = createReducer(initialState, {
+  [actions.darkMode.toggle]: (state, action) => ({
+    ...state,
+    darkMode: !state.darkMode,
+  }),
+  [actions.darkMode.set.type]: (state, action) => ({
+    ...state,
+    darkMode: action.payload,
+  }),
+});
 
 const store = createStore(reducer);
 

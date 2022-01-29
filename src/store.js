@@ -1,9 +1,10 @@
 import { createStore } from 'redux';
+import { createAction } from '@reduxjs/toolkit';
 
-const actionTypes = {
+const actions = {
   darkMode: {
-    toggle: 'darkMode/toggle',
-    set: 'darkMode/set',
+    toggle: createAction('darkMode/toggle'),
+    set: createAction('darkMode/set'),
   },
 };
 
@@ -12,27 +13,15 @@ const initialState = {
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.darkMode.toggle:
+    case actions.darkMode.toggle.type:
       return { ...state, darkMode: !state.darkMode };
-    case actionTypes.darkMode.set:
-      return { ...state, darkMode: action.value };
+    case actions.darkMode.set.type:
+      return { ...state, darkMode: action.payload };
   }
   return state;
 };
 
 const store = createStore(reducer);
-
-const actions = {
-  darkMode: {
-    toggle: () => ({
-      type: actionTypes.darkMode.toggle,
-    }),
-    set: (value) => ({
-      type: actionTypes.darkMode.set,
-      value: value,
-    }),
-  },
-};
 
 export { actions };
 export default store;

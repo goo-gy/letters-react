@@ -1,6 +1,33 @@
+import { useState } from 'react';
+
+// local
 import Logo from 'asset/img/logo.svg';
 
+const users = [
+  {
+    email: 'googy@googy.com',
+    name: 'googy',
+    password: 'hohoho',
+  },
+];
+
 const SignIn = () => {
+  const [login, setLogin] = useState({ email: '', password: '' });
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setLogin({ ...login, [name]: value });
+  };
+
+  const handleLogin = (e) => {
+    const matchUser = users.filter(
+      (user) => user.email === login.email && user.password === login.password
+    );
+    if (matchUser.length === 1) console.log(matchUser[0].name);
+    else console.log('error');
+  };
+
   return (
     <>
       <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -8,7 +35,7 @@ const SignIn = () => {
           <img className="mx-auto h-12 w-auto" src={Logo} alt="Workflow" />
           <p className="mt-2 p-5 text-center text-sm text-gray-600"> </p>
         </div>
-        <form className="space-y-6" action="#" method="POST">
+        <div className="space-y-6">
           <div>
             <label
               htmlFor="email"
@@ -24,6 +51,7 @@ const SignIn = () => {
                 autoComplete="email"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pointBlue focus:border-pointBlue sm:text-sm"
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -43,6 +71,7 @@ const SignIn = () => {
                 autoComplete="current-password"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pointBlue focus:border-pointBlue sm:text-sm"
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -77,11 +106,12 @@ const SignIn = () => {
             <button
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:pointBlue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pointBlue"
+              onClick={handleLogin}
             >
               Sign in
             </button>
           </div>
-        </form>
+        </div>
 
         <div className="mt-6">
           <div className="relative">

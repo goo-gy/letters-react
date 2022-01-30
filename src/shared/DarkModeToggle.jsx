@@ -16,8 +16,8 @@ const DarkModeToggle = (props) => {
       <Switch
         checked={darkMode}
         onChange={handleToggle}
-        className={`${darkMode ? 'bg-teal-400' : 'bg-gray-700'}
-          relative inline-flex flex-shrink-0 h-[28px] w-[60px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+        className="bg-gray-700 dark:bg-red-400
+          relative inline-flex flex-shrink-0 h-[29px] w-[60.5px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
       >
         <span className="sr-only">Use setting</span>
         <span

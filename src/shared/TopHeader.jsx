@@ -3,8 +3,8 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 
 // local
-import Logo from 'asset/img/logo.svg';
 import DarkModeToggle from 'shared/DarkModeToggle';
+import LogoImage from './LogoImage';
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
@@ -18,7 +18,7 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <Disclosure as="nav" className="bg-header text-tahiti">
+    <Disclosure as="nav" className=" text-tahiti bg-header dark:bg-headerWarm">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -36,17 +36,8 @@ export default function Example() {
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <img
-                    className="block lg:hidden h-8 w-auto"
-                    // TODO : logo image
-                    src={Logo}
-                    alt="Workflow"
-                  />
-                  <img
-                    className="hidden lg:block h-8 w-auto"
-                    src={Logo}
-                    alt="Workflow"
-                  />
+                  <LogoImage className="block lg:hidden h-8 w-auto" />
+                  <LogoImage className="hidden lg:block h-8 w-auto" />
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">

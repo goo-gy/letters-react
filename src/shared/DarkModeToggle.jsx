@@ -6,8 +6,8 @@ import { actions } from 'store.js';
 
 const DarkModeToggle = (props) => {
   const darkMode = props.darkMode;
-
   const handleToggle = () => {
+    window.localStorage.setItem('darkMode', !darkMode);
     props.darkModeToggle();
   };
 

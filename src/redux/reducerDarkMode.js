@@ -5,19 +5,11 @@ const actionDarkMode = {
   set: createAction('set'),
 };
 
-const initialState = {
-  darkMode: false,
-};
+const initialState = false;
 
 const reducerDarkMode = createReducer(initialState, {
-  [actionDarkMode.toggle]: (state, action) => ({
-    ...state,
-    darkMode: !state.darkMode,
-  }),
-  [actionDarkMode.set]: (state, action) => ({
-    ...state,
-    darkMode: action.payload,
-  }),
+  [actionDarkMode.toggle]: (state, action) => !state,
+  [actionDarkMode.set]: (state, action) => action.payload,
 });
 
 export { actionDarkMode };

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // local
-import { actions } from 'store.js';
+import { actionDarkMode } from 'redux/reducerDarkMode.js';
 
 const Home = (props) => {
   const handleDark = () => {
@@ -33,7 +33,7 @@ const Home = (props) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    darkModeSet: (value) => dispatch(actions.darkMode.set(value)),
+    darkModeSet: (value) => dispatch(actionDarkMode.set(value)),
   };
 };
 export default connect(null, mapDispatchToProps)(Home);

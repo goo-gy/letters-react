@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 // local
 import App from './App';
 import './tailwind.css';
-import store from './store';
+import store from './redux/store';
 
 ReactDOM.render(
   <Provider store={store}>

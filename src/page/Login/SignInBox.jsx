@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // local
-import Logo from 'asset/img/logo.svg';
+import LogoImage from 'shared/LogoImage';
 
 const users = [
   {
@@ -32,7 +33,8 @@ const SignIn = () => {
     <>
       <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img className="mx-auto h-12 w-auto" src={Logo} alt="Workflow" />
+          <LogoImage className="block h-12 w-auto mx-auto" />
+          {/* <img className="mx-auto h-12 w-auto" src={Logo} alt="Workflow" /> */}
           <p className="mt-2 p-5 text-center text-sm text-gray-600"> </p>
         </div>
         <div className="space-y-6">
@@ -50,7 +52,7 @@ const SignIn = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pointBlue focus:border-pointBlue sm:text-sm"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 sm:text-sm focus:outline-none focus:border-pointBlue focus:ring-pointBlue dark:focus:border-pointWarm dark:focus:ring-pointWarm"
                 onChange={handleChange}
               />
             </div>
@@ -70,7 +72,7 @@ const SignIn = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pointBlue focus:border-pointBlue sm:text-sm"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 sm:text-sm focus:outline-none focus:border-pointBlue dark:focus:border-pointWarm dark:focus:ring-pointWarm"
                 onChange={handleChange}
               />
             </div>
@@ -82,7 +84,7 @@ const SignIn = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-pointBlue border-gray-300 rounded"
+                className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
               />
               <label
                 htmlFor="remember-me"
@@ -95,7 +97,7 @@ const SignIn = () => {
             <div className="text-sm">
               <a
                 href="#"
-                className="font-medium text-indigo-600 hover:text-pointBlue"
+                className="font-medium text-indigo-500 hover:text-pointBlue dark:hover:text-pointWarm"
               >
                 Forgot your password?
               </a>
@@ -105,11 +107,16 @@ const SignIn = () => {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:pointBlue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pointBlue"
+              className="w-full flex justify-center text-lg my-1 py-1 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:bg-pointBlue dark:bg-componentWarm dark:hover:bg-pointWarm"
               onClick={handleLogin}
             >
               Sign in
             </button>
+            <Link to="/signup">
+              <button className="w-full flex justify-center text-lg my-1 py-1 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:bg-pointBlue dark:bg-componentWarm dark:hover:bg-pointWarm">
+                Sign up
+              </button>
+            </Link>
           </div>
         </div>
 

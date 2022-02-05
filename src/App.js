@@ -2,9 +2,10 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 //local
 // import { Home } from 'page';
+import TopHeader from 'shared/TopHeader';
 import Home from 'page/Home/Home';
 import Login from 'page/Login/Login';
-import TopHeader from 'shared/TopHeader';
+import SignUp from 'page/SignUp/SignUp';
 import { connect } from 'react-redux';
 
 function App(props) {
@@ -17,6 +18,7 @@ function App(props) {
           <Route path="/" element={<Home />} />
           <Route path="/Dashboard" element={<Home />} />
           <Route path="/Login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
     </div>

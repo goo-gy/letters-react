@@ -1,8 +1,10 @@
 import React from 'react';
-// local
+
+// shared
 import TopHeader from 'shared/TopHeader';
 import Section from 'shared/Section';
-//
+
+// local
 import SignIn from './SignInBox';
 
 const Login = () => {

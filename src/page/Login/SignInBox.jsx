@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// local
+// shared
 import LogoImage from 'shared/LogoImage';
+import { getUsers, signIn } from 'API/v0/user';
 
 const users = [
   {
@@ -22,11 +23,11 @@ const SignIn = () => {
   };
 
   const handleLogin = (e) => {
-    const matchUser = users.filter(
-      (user) => user.email === login.email && user.password === login.password
-    );
-    if (matchUser.length === 1) console.log(matchUser[0].name);
-    else console.log('error');
+    signIn({ email: login.email, password: login.password }).then((users) => {
+      // TODO : Need to handle error
+      // set state
+      console.log(users);
+    });
   };
 
   return (

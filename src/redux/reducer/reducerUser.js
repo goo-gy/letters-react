@@ -1,9 +1,7 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createReducer } from '@reduxjs/toolkit';
 
-const actionUser = {
-  updateEmail: createAction('updateEmail'),
-  updateName: createAction('updateName'),
-};
+// local
+import actionUser from 'redux/action/user';
 
 const initialState = {
   email: '',
@@ -21,5 +19,4 @@ const reducerUser = createReducer(initialState, {
   }),
 });
 
-export { actionUser };
 export default reducerUser;

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // local
-import { actionDarkMode } from 'redux/reducerDarkMode.js';
+import actionDarkMode from 'redux/action/darkMode.js';
 
 const Home = (props) => {
   const handleDark = () => {

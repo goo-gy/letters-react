@@ -3,8 +3,8 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 // local
-import reducerDarkMode from './reducerDarkMode';
-import reducerUser from './reducerUser';
+import reducerDarkMode from './darkMode';
+import reducerUser from './user';
 
 const persistConfig = {
   key: 'root',

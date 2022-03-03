@@ -8,7 +8,7 @@ import Home from 'page/Home/Home';
 import Login from 'page/Login/Login';
 import SignUp from 'page/SignUp/SignUp';
 import { connect } from 'react-redux';
-import { actions } from 'store';
+import actionDarkMode from 'redux/action/darkMode';
 
 function App(props) {
   const darkMode = props.darkMode;
@@ -39,7 +39,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    darkModeSet: (value) => dispatch(actions.darkMode.set(value)),
+    darkModeSet: (value) => dispatch(actionDarkMode.set(value)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

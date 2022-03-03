@@ -1,9 +1,7 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createReducer } from '@reduxjs/toolkit';
 
-const actionDarkMode = {
-  toggle: createAction('toggle'),
-  set: createAction('set'),
-};
+// local
+import actionDarkMode from 'redux/action/darkMode';
 
 const initialState = false;
 
@@ -12,5 +10,4 @@ const reducerDarkMode = createReducer(initialState, {
   [actionDarkMode.set]: (state, action) => action.payload,
 });
 
-export { actionDarkMode };
 export default reducerDarkMode;

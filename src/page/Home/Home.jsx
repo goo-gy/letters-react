@@ -6,10 +6,12 @@ import { actionDarkMode } from 'redux/reducerDarkMode.js';
 
 const Home = (props) => {
   const handleDark = () => {
+    window.localStorage.setItem('darkMode', true);
     props.darkModeSet(true);
   };
 
   const handleLight = () => {
+    window.localStorage.setItem('darkMode', false);
     props.darkModeSet(false);
   };
 

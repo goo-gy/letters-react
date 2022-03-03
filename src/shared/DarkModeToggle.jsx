@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 // local
 import { actions } from 'store.js';
 
-const DarkModeToggle = (props) => {
-  const darkMode = props.darkMode;
+const DarkModeToggle = ({ darkMode, darkModeToggle }) => {
   const handleToggle = () => {
-    window.localStorage.setItem('darkMode', !darkMode);
-    props.darkModeToggle();
+    window.sessionStorage.setItem('darkMode', !darkMode);
+    darkModeToggle();
   };
 
   return (

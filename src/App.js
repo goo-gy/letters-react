@@ -14,13 +14,8 @@ function App(props) {
   const darkModeSet = props.darkModeSet;
 
   useEffect(() => {
-    const savedDarkMode = window.localStorage.getItem('darkMode') === 'true';
-    if (savedDarkMode !== null) {
-      console.log('savedDarkMode', savedDarkMode, typeof savedDarkMode);
-      darkModeSet(savedDarkMode);
-    } else {
-      console.log('none');
-    }
+    const savedDarkMode = window.sessionStorage.getItem('darkMode') === 'true';
+    if (savedDarkMode) darkModeSet(savedDarkMode);
   }, []);
 
   return (

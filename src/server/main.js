@@ -6,19 +6,24 @@ const cors = require('cors');
 const PORT = 3001;
 
 const app = express();
-app.use(cors());
-
 const httpServer = http.createServer(app);
-const wsServer = SocketIO(httpServer);
+const wsServer = SocketIO(httpServer, {
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
+});
 
 wsServer.on('connection', (socket) => {
-  socket.on('enter_room', (msg, done) => {
-    console.log(msg);
-    setTimeout(() => {
-      done();
-    }, 3000);
+  console.log('socketID:', socket.id);
+  socket.on('room_join', ({ name }) => {
+    socket.join(name);
+    console.log(socket.rooms);
   });
-  console.log(socket);
+
+  socket.on('msg', ({ msg }) => {
+    socket.to('global').emit('msg', msg);
+  });
 });
 
 const handleListen = () => console.log(`Listening on ${PORT}`);

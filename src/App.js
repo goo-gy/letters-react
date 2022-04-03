@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 //local
-// import { Home } from 'page';
+import actionDarkMode from 'redux/action/darkMode';
+
 import TopHeader from 'shared/TopHeader';
 import Home from 'page/Home/Home';
 import Login from 'page/Login/Login';
 import SignUp from 'page/SignUp/SignUp';
-import { connect } from 'react-redux';
-import actionDarkMode from 'redux/action/darkMode';
+import Dashboard from 'page/Dashboard/Dashboard';
 
 function App(props) {
   const darkMode = props.darkMode;
@@ -25,7 +26,7 @@ function App(props) {
         <TopHeader />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Dashboard" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

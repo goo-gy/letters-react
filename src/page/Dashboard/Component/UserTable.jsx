@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import UserRow from './UserRow';
 
 const UserTable = () => {
@@ -36,13 +36,14 @@ const UserTable = () => {
       following: false,
     },
   ]);
-  const handleChangeFollow = (id) => {
+
+  const handleChangeFollow = useCallback((id) => {
     setUsers((users) =>
       users.map((user) =>
         user.id === id ? { ...user, following: !user.following } : user
       )
     );
-  };
+  }, []);
 
   const handleCreateRandomUser = () => {
     const user = {

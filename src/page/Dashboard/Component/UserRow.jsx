@@ -33,4 +33,4 @@ const UserRow = ({ user, handleChangeFollow }) => {
   );
 };
 
-export default UserRow;
+export default React.memo(UserRow);

@@ -37,13 +37,13 @@ const UserTable = () => {
     },
   ]);
 
-  const handleChangeFollow = useCallback((id) => {
+  const handleChangeFollow = (id) => {
     setUsers((users) =>
       users.map((user) =>
         user.id === id ? { ...user, following: !user.following } : user
       )
     );
-  }, []);
+  };
 
   const handleCreateRandomUser = () => {
     const user = {

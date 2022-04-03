@@ -33,4 +33,8 @@ const UserRow = ({ user, handleChangeFollow }) => {
   );
 };
 
-export default React.memo(UserRow);
+const isEqual = (prevProps, nextProps) => {
+  return JSON.stringify(prevProps.user) === JSON.stringify(nextProps.user);
+};
+
+export default React.memo(UserRow, isEqual);

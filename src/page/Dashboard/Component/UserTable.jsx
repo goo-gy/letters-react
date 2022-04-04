@@ -5,7 +5,7 @@ const UserTable = () => {
   const [users, setUsers] = useState([
     {
       id: 0,
-      name: 'googy',
+      name: 'Googy',
       age: 25,
       description: 'Be Happy',
       role: 'develop',
@@ -14,17 +14,17 @@ const UserTable = () => {
     {
       id: 1,
       name: 'ABC',
-      age: 28,
-      description: 'ABC.walton@example.com',
-      role: 'develop',
+      age: 3,
+      description: 'ABC@ABC.com',
+      role: 'market',
       following: false,
     },
     {
       id: 2,
-      name: 'Lindsay Walton',
+      name: 'Grace',
       age: 22,
-      description: 'lindsay.walton@example.com',
-      role: 'develop',
+      description: 'Clean & Jerk',
+      role: 'workout',
       following: false,
     },
     {
@@ -32,7 +32,7 @@ const UserTable = () => {
       name: 'Holiday',
       age: 1,
       description: 'Too short',
-      role: 'develop',
+      role: 'rest',
       following: false,
     },
   ]);

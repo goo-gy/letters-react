@@ -19,7 +19,7 @@ const UserRow = ({ user, handleChangeFollow }) => {
       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
         <button
           type="button"
-          className={`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm ${
+          className={`inline-flex items-center justify-center min-w-[100px] rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm ${
             user.following
               ? 'bg-green-500 hover:bg-green-600'
               : 'bg-indigo-600 hover:bg-indigo-700'

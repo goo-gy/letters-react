@@ -1,7 +1,10 @@
 const ChatLog = ({ chatLogList }) => {
   return (
     <div>
-      <ul role="list" className="divide-y divide-gray-200">
+      <ul
+        role="list"
+        className="divide-y divide-componentSky dark:divide-componentWarm"
+      >
         {chatLogList.map((chatLog, index) => (
           <li key={index} className="py-4">
             <div className="flex space-x-3">
@@ -16,10 +19,12 @@ const ChatLog = ({ chatLogList }) => {
               />
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium">{chatLog.userName}</h3>
+                  <h3 className="text-sm font-bold text-componentSky dark:text-componentWarm">
+                    {chatLog.userName}
+                  </h3>
                   <p className="text-sm text-gray-500">{chatLog.time}</p>
                 </div>
-                <p className="text-sm text-gray-500">{chatLog.msg}</p>
+                <p className="text-sm ">{chatLog.msg}</p>
               </div>
             </div>
           </li>

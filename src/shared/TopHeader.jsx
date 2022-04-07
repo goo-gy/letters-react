@@ -2,22 +2,25 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // local
 import DarkModeToggle from 'shared/DarkModeToggle';
 import LogoImage from './LogoImage';
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Dashboard', href: 'dashboard', current: false },
-  { name: 'Login', href: 'login', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'Dashboard', href: '/dashboard' },
+  { name: 'Login', href: '/login' },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+const TopHeader = () => {
+  const path = useLocation().pathname;
+
   return (
     <Disclosure as="nav" className=" text-tahiti bg-header dark:bg-headerWarm">
       {({ open }) => (
@@ -47,7 +50,7 @@ export default function Example() {
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          item.current
+                          item.href === path
                             ? 'bg-gray-900 text-white'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
@@ -163,4 +166,6 @@ export default function Example() {
       )}
     </Disclosure>
   );
-}
+};
+
+export default TopHeader;

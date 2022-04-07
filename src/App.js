@@ -10,6 +10,7 @@ import Home from 'page/Home/Home';
 import Login from 'page/Login/Login';
 import SignUp from 'page/SignUp/SignUp';
 import Dashboard from 'page/Dashboard/Dashboard';
+import Chat from 'page/Chat/Chat';
 
 function App(props) {
   const darkMode = props.darkMode;
@@ -29,6 +30,7 @@ function App(props) {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </div>
     </div>

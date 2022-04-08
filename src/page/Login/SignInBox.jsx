@@ -1,20 +1,15 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // shared
 import LogoImage from 'shared/LogoImage';
-import { getUsers, signIn } from 'API/v0/user';
+import actionUser from 'redux/action/user';
+import userAPI from 'API/v0/user';
 
-const users = [
-  {
-    email: 'googy@googy.com',
-    name: 'googy',
-    password: 'hohoho',
-  },
-];
-
-const SignIn = () => {
+const SignIn = ({ user, signIn }) => {
   const [login, setLogin] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -23,11 +18,17 @@ const SignIn = () => {
   };
 
   const handleLogin = (e) => {
-    signIn({ email: login.email, password: login.password }).then((users) => {
-      // TODO : Need to handle error
-      // set state
-      console.log(users);
-    });
+    userAPI
+      .signIn({ email: login.email, password: login.password })
+      .then((user) => {
+        if (user) {
+          signIn(user);
+          navigate('/');
+        } else {
+          alert('로그인에 실패하였습니다.');
+        }
+      })
+      .catch((error) => {});
   };
 
   return (
@@ -199,4 +200,16 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const mapStateToProps = (state) => {
+  return { user: state.user };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (user) => {
+      dispatch(actionUser.signIn(user));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

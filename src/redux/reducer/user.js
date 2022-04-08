@@ -4,18 +4,20 @@ import { createReducer } from '@reduxjs/toolkit';
 import actionUser from 'redux/action/user';
 
 const initialState = {
+  id: 0,
   email: '',
   name: '',
+  token: '',
 };
 
 const reducerUser = createReducer(initialState, {
-  [actionUser.updateEmail]: (state, action) => ({
+  [actionUser.signIn]: (state, action) => action.payload,
+  [actionUser.signOut]: (state, action) => initialState,
+  [actionUser.updateInfo]: (state, action) => ({
     ...state,
-    email: action.payload,
-  }),
-  [actionUser.updateName]: (state, action) => ({
-    ...state,
-    name: action.payload,
+    id: action.payload.id,
+    email: action.payload.email,
+    name: action.payload.name,
   }),
 });
 

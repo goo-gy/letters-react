@@ -31,7 +31,8 @@ async function signIn({ email, password }) {
         signIn (email:"${email}", password: "${password}") {
           id,
           email,
-          name
+          name,
+          token
         }
       }
     `;
@@ -47,4 +48,4 @@ async function signIn({ email, password }) {
 
 //
 
-export { getUsers, signIn };
+export default { getUsers, signIn };

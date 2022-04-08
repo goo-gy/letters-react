@@ -1,7 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
 
 const actionUser = {
-  updateEmail: createAction('updateEmail'),
-  updateName: createAction('updateName'),
+  signIn: createAction('user/signIn'),
+  signOut: createAction('user/signOut'),
+  updateInfo: createAction('user/updateInfo'),
 };
 export default actionUser;

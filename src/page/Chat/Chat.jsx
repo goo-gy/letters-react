@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
 
 // local
+import ChatLog from './Component/ChatLog';
+import Member from './Component/Member';
 import Section from 'shared/Section';
 import SimpleButton from 'shared/SimpleButton';
 import SimpleInput from 'shared/SimpleInput';
-import ChatLog from './Component/ChatLog';
-import Member from './Component/Member';
+import actionUser from 'redux/action/user';
 
 const url = process.env.REACT_APP_CHAT_URL;
 const socket = io.connect(url);
@@ -18,9 +20,7 @@ const event = {
   msg: 'msg',
 };
 
-const Chat = () => {
-  const [editName, setEditName] = useState('');
-  const [myName, setMyName] = useState('');
+const Chat = ({ user }) => {
   const [msg, setMsg] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
   const [people, setPeople] = useState([]);
@@ -29,7 +29,7 @@ const Chat = () => {
     setChatLogList((prevChatLogList) => [
       ...prevChatLogList,
       {
-        userName: myName,
+        userName: user.name,
         msg,
         time,
       },
@@ -41,7 +41,7 @@ const Chat = () => {
     if (msg) {
       socket.emit(
         event.msg,
-        { roomName: 'global', userName: myName, msg },
+        { roomName: 'global', userName: user.name, msg },
         sendDone
       );
     }
@@ -58,11 +58,9 @@ const Chat = () => {
   const handleJoin = () => {
     socket.emit(
       event.joinRoom,
-      { userName: editName, roomName: 'global' },
+      { userName: user.name, roomName: 'global' },
       joinDone
     );
-    setMyName(editName);
-    setEditName('');
   };
 
   const handleReceiveMsg = (chatLog) => {
@@ -75,12 +73,14 @@ const Chat = () => {
     ]);
     setPeople((prevPeople) => [...prevPeople, userName]);
   };
+  // TODO : message
   const handleReceiveLeave = ({}) => {};
 
   useEffect(() => {
     socket.on(event.msg, handleReceiveMsg);
     socket.on(event.joinRoom, handleReceiveJoin);
     socket.on(event.disconnect, handleReceiveLeave);
+    handleJoin();
     return () => {
       socket.off(event.msg, handleReceiveMsg);
       socket.off(event.msg, handleReceiveJoin);
@@ -89,7 +89,7 @@ const Chat = () => {
   }, []);
   return (
     <>
-      <Section>
+      {/* <Section>
         <div className="my-5 mx-auto">
           <SimpleInput
             value={editName}
@@ -100,7 +100,7 @@ const Chat = () => {
         <div>
           <SimpleButton text={'Enter'} func={handleJoin} />
         </div>
-      </Section>
+      </Section> */}
       <Section>
         <div>
           {people.map((name, index) => (
@@ -123,4 +123,7 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+const mapStateToProps = (state) => {
+  return { user: state.user };
+};
+export default connect(mapStateToProps)(Chat);

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// shared
+// local
 import LogoImage from 'shared/LogoImage';
 import actionUser from 'redux/action/user';
 import userAPI from 'API/v0/user';

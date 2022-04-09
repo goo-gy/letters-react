@@ -17,6 +17,7 @@ const event = {
   connection: 'connection',
   disconnect: 'disconnect',
   joinRoom: 'join_room',
+  leaveRoom: 'leave_room',
   msg: 'msg',
 };
 
@@ -56,6 +57,7 @@ const Chat = ({ user }) => {
   };
 
   const handleJoin = () => {
+    console.log('user', user);
     socket.emit(
       event.joinRoom,
       { userName: user.name, roomName: 'global' },
@@ -73,18 +75,29 @@ const Chat = ({ user }) => {
     ]);
     setPeople((prevPeople) => [...prevPeople, userName]);
   };
-  // TODO : message
-  const handleReceiveLeave = ({}) => {};
+
+  const handleReceiveLeave = ({ userName, time }) => {
+    setChatLogList((prevChatLogList) => [
+      ...prevChatLogList,
+      { userName, msg: `${userName}님이 퇴장하셨습니다.`, time },
+    ]);
+    setPeople((prevPeople) => prevPeople.filter((name) => name !== userName));
+  };
+
+  const handleLeave = () => {
+    socket.emit(event.leaveRoom, { userName: user.name, roomName: 'global' });
+  };
 
   useEffect(() => {
     socket.on(event.msg, handleReceiveMsg);
     socket.on(event.joinRoom, handleReceiveJoin);
-    socket.on(event.disconnect, handleReceiveLeave);
-    handleJoin();
+    socket.on(event.leaveRoom, handleReceiveLeave);
+    if (user.id) handleJoin();
     return () => {
+      if (user.id) handleLeave();
       socket.off(event.msg, handleReceiveMsg);
-      socket.off(event.msg, handleReceiveJoin);
-      socket.off(event.msg, handleReceiveLeave);
+      socket.off(event.joinRoom, handleReceiveJoin);
+      socket.off(event.leaveRoom, handleReceiveLeave);
     };
   }, []);
   return (

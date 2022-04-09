@@ -22,7 +22,6 @@ function classNames(...classes) {
 
 const TopHeader = ({ user }) => {
   const path = useLocation().pathname;
-  console.log(user);
   return (
     <Disclosure as="nav" className=" text-tahiti bg-header dark:bg-headerWarm">
       {({ open }) => (

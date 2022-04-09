@@ -8,11 +8,12 @@ import { connect } from 'react-redux';
 import DarkModeToggle from 'shared/DarkModeToggle';
 import LogoImage from './LogoImage';
 import ProfileBox from './Component/ProfileBox';
+import { Fragment } from 'react';
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Dashboard', href: '/dashboard' },
-  { name: 'Chat', href: '/chat' },
+  { name: 'Home', href: '/', auth: null },
+  { name: 'Dashboard', href: '/dashboard', auth: 'user' },
+  { name: 'Chat', href: '/chat', auth: 'user' },
 ];
 
 function classNames(...classes) {
@@ -21,7 +22,7 @@ function classNames(...classes) {
 
 const TopHeader = ({ user }) => {
   const path = useLocation().pathname;
-
+  console.log(user);
   return (
     <Disclosure as="nav" className=" text-tahiti bg-header dark:bg-headerWarm">
       {({ open }) => (
@@ -46,21 +47,25 @@ const TopHeader = ({ user }) => {
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={classNames(
-                          item.href === path
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    {navigation.map((item, index) =>
+                      !item.auth || user.authList?.includes(item.auth) ? (
+                        <Link
+                          key={index}
+                          to={item.href}
+                          className={classNames(
+                            item.href === path
+                              ? 'bg-gray-900 text-white'
+                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                            'px-3 py-2 rounded-md text-sm font-medium'
+                          )}
+                          aria-current={item.current ? 'page' : undefined}
+                        >
+                          {item.name}
+                        </Link>
+                      ) : (
+                        <Fragment key={index} />
+                      )
+                    )}
                   </div>
                 </div>
               </div>

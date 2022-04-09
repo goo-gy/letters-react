@@ -123,13 +123,20 @@ const Chat = ({ user }) => {
         <div>
           <ChatLog chatLogList={chatLogList} />
           <div className="my-5 mx-auto">
-            <SimpleInput
-              value={msg}
-              placeholder="msg"
-              onChange={(e) => setMsg(e.target.value)}
-            />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+            >
+              <input
+                className="rounded border-2 w-full h-10 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+              />
+            </form>
           </div>
-          <SimpleButton text={'Send'} func={handleSend} />
+          {/* <SimpleButton text={'Send'} func={handleSend} /> */}
         </div>
       </Section>
     </>

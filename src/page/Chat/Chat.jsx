@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
 
 // local
+import ChatLog from './Component/ChatLog';
+import Member from './Component/Member';
 import Section from 'shared/Section';
 import SimpleButton from 'shared/SimpleButton';
 import SimpleInput from 'shared/SimpleInput';
-import ChatLog from './Component/ChatLog';
-import Member from './Component/Member';
+import actionUser from 'redux/action/user';
 
 const url = process.env.REACT_APP_CHAT_URL;
 const socket = io.connect(url);
@@ -15,12 +17,11 @@ const event = {
   connection: 'connection',
   disconnect: 'disconnect',
   joinRoom: 'join_room',
+  leaveRoom: 'leave_room',
   msg: 'msg',
 };
 
-const Chat = () => {
-  const [editName, setEditName] = useState('');
-  const [myName, setMyName] = useState('');
+const Chat = ({ user }) => {
   const [msg, setMsg] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
   const [people, setPeople] = useState([]);
@@ -29,7 +30,7 @@ const Chat = () => {
     setChatLogList((prevChatLogList) => [
       ...prevChatLogList,
       {
-        userName: myName,
+        userName: user.name,
         msg,
         time,
       },
@@ -41,7 +42,7 @@ const Chat = () => {
     if (msg) {
       socket.emit(
         event.msg,
-        { roomName: 'global', userName: myName, msg },
+        { roomName: 'global', userName: user.name, msg },
         sendDone
       );
     }
@@ -56,13 +57,12 @@ const Chat = () => {
   };
 
   const handleJoin = () => {
+    console.log('user', user);
     socket.emit(
       event.joinRoom,
-      { userName: editName, roomName: 'global' },
+      { userName: user.name, roomName: 'global' },
       joinDone
     );
-    setMyName(editName);
-    setEditName('');
   };
 
   const handleReceiveMsg = (chatLog) => {
@@ -75,21 +75,34 @@ const Chat = () => {
     ]);
     setPeople((prevPeople) => [...prevPeople, userName]);
   };
-  const handleReceiveLeave = ({}) => {};
+
+  const handleReceiveLeave = ({ userName, time }) => {
+    setChatLogList((prevChatLogList) => [
+      ...prevChatLogList,
+      { userName, msg: `${userName}님이 퇴장하셨습니다.`, time },
+    ]);
+    setPeople((prevPeople) => prevPeople.filter((name) => name !== userName));
+  };
+
+  const handleLeave = () => {
+    socket.emit(event.leaveRoom, { userName: user.name, roomName: 'global' });
+  };
 
   useEffect(() => {
     socket.on(event.msg, handleReceiveMsg);
     socket.on(event.joinRoom, handleReceiveJoin);
-    socket.on(event.disconnect, handleReceiveLeave);
+    socket.on(event.leaveRoom, handleReceiveLeave);
+    if (user.id) handleJoin();
     return () => {
+      if (user.id) handleLeave();
       socket.off(event.msg, handleReceiveMsg);
-      socket.off(event.msg, handleReceiveJoin);
-      socket.off(event.msg, handleReceiveLeave);
+      socket.off(event.joinRoom, handleReceiveJoin);
+      socket.off(event.leaveRoom, handleReceiveLeave);
     };
   }, []);
   return (
     <>
-      <Section>
+      {/* <Section>
         <div className="my-5 mx-auto">
           <SimpleInput
             value={editName}
@@ -100,7 +113,7 @@ const Chat = () => {
         <div>
           <SimpleButton text={'Enter'} func={handleJoin} />
         </div>
-      </Section>
+      </Section> */}
       <Section>
         <div>
           {people.map((name, index) => (
@@ -110,17 +123,27 @@ const Chat = () => {
         <div>
           <ChatLog chatLogList={chatLogList} />
           <div className="my-5 mx-auto">
-            <SimpleInput
-              value={msg}
-              placeholder="msg"
-              onChange={(e) => setMsg(e.target.value)}
-            />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+            >
+              <input
+                className="rounded border-2 w-full h-10 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+              />
+            </form>
           </div>
-          <SimpleButton text={'Send'} func={handleSend} />
+          {/* <SimpleButton text={'Send'} func={handleSend} /> */}
         </div>
       </Section>
     </>
   );
 };
 
-export default Chat;
+const mapStateToProps = (state) => {
+  return { user: state.user };
+};
+export default connect(mapStateToProps)(Chat);

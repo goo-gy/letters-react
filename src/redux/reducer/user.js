@@ -8,10 +8,14 @@ const initialState = {
   email: '',
   name: '',
   token: '',
+  authList: [],
 };
 
 const reducerUser = createReducer(initialState, {
-  [actionUser.signIn]: (state, action) => action.payload,
+  [actionUser.signIn]: (state, action) => ({
+    ...action.payload,
+    authList: ['user'],
+  }),
   [actionUser.signOut]: (state, action) => initialState,
   [actionUser.updateInfo]: (state, action) => ({
     ...state,

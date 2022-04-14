@@ -14,9 +14,19 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["src"],
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    },
     "plugins": [
         "react"
     ],
     "rules": {
+        "linebreak-style": 0,
+        "react/prop-types": "off"
     }
 }

@@ -6,7 +6,7 @@ import actionDarkMode from 'redux/action/darkMode';
 const initialState = false;
 
 const reducerDarkMode = createReducer(initialState, {
-  [actionDarkMode.toggle]: (state, action) => !state,
+  [actionDarkMode.toggle]: (state) => !state,
   [actionDarkMode.set]: (state, action) => action.payload,
 });
 

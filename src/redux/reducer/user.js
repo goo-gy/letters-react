@@ -16,7 +16,7 @@ const reducerUser = createReducer(initialState, {
     ...action.payload,
     authList: ['user'],
   }),
-  [actionUser.signOut]: (state, action) => initialState,
+  [actionUser.signOut]: () => initialState,
   [actionUser.updateInfo]: (state, action) => ({
     ...state,
     id: action.payload.id,

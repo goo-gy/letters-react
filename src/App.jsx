@@ -37,8 +37,8 @@ function App(props) {
   );
 }
 
-const mapStateToProps = (state, ownProps) => ({ darkMode: state.darkMode });
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapStateToProps = (state) => ({ darkMode: state.darkMode });
+const mapDispatchToProps = (dispatch) => ({
   darkModeSet: (value) => dispatch(actionDarkMode.set(value)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);

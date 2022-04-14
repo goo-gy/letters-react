@@ -8,7 +8,7 @@ import reducerUser from './user';
 
 const persistConfig = {
   key: 'root',
-  storage: storage,
+  storage,
 };
 
 const rootReducer = combineReducers({

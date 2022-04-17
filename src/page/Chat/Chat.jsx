@@ -3,12 +3,9 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 
 // local
-import ChatLog from './Component/ChatLog';
-import Member from './Component/Member';
 import Section from 'shared/Section';
-import SimpleButton from 'shared/SimpleButton';
-import SimpleInput from 'shared/SimpleInput';
-import actionUser from 'redux/action/user';
+import Member from './Component/Member';
+import ChatLog from './Component/ChatLog';
 
 const url = process.env.REACT_APP_CHAT_URL;
 const socket = io.connect(url);
@@ -21,10 +18,10 @@ const event = {
   msg: 'msg',
 };
 
-const Chat = ({ user }) => {
+function Chat({ user }) {
   const [msg, setMsg] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
-  const [people, setPeople] = useState([]);
+  const [roomPeople, setRoomPeople] = useState([]);
 
   const sendDone = (time) => {
     setChatLogList((prevChatLogList) => [
@@ -53,11 +50,10 @@ const Chat = ({ user }) => {
       ...prevChatLogList,
       { userName, msg: `${userName}님이 입장하셨습니다.`, time },
     ]);
-    setPeople((prevPeople) => people);
+    setRoomPeople((prevPeople) => people);
   };
 
   const handleJoin = () => {
-    console.log('user', user);
     socket.emit(
       event.joinRoom,
       { userName: user.name, roomName: 'global' },
@@ -73,7 +69,7 @@ const Chat = ({ user }) => {
       ...prevChatLogList,
       { userName, msg: `${userName}님이 입장하셨습니다.`, time },
     ]);
-    setPeople((prevPeople) => [...prevPeople, userName]);
+    setRoomPeople((prevPeople) => [...prevPeople, userName]);
   };
 
   const handleReceiveLeave = ({ userName, time }) => {
@@ -81,7 +77,9 @@ const Chat = ({ user }) => {
       ...prevChatLogList,
       { userName, msg: `${userName}님이 퇴장하셨습니다.`, time },
     ]);
-    setPeople((prevPeople) => prevPeople.filter((name) => name !== userName));
+    setRoomPeople((prevPeople) =>
+      prevPeople.filter((name) => name !== userName)
+    );
   };
 
   const handleLeave = () => {
@@ -116,7 +114,7 @@ const Chat = ({ user }) => {
       </Section> */}
       <Section>
         <div>
-          {people.map((name, index) => (
+          {roomPeople.map((name, index) => (
             <Member key={index} name={name} />
           ))}
         </div>
@@ -141,9 +139,7 @@ const Chat = ({ user }) => {
       </Section>
     </>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  return { user: state.user };
-};
+const mapStateToProps = (state) => ({ user: state.user });
 export default connect(mapStateToProps)(Chat);

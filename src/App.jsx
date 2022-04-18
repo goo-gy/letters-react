@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-//local
+// local
 import actionDarkMode from 'redux/action/darkMode';
 
 import TopHeader from 'shared/TopHeader';
@@ -13,8 +13,8 @@ import Dashboard from 'page/Dashboard/Dashboard';
 import Chat from 'page/Chat/Chat';
 
 function App(props) {
-  const darkMode = props.darkMode;
-  const darkModeSet = props.darkModeSet;
+  const { darkMode } = props;
+  const { darkModeSet } = props;
 
   useEffect(() => {
     const savedDarkMode = window.sessionStorage.getItem('darkMode') === 'true';
@@ -37,12 +37,8 @@ function App(props) {
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return { darkMode: state.darkMode };
-};
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    darkModeSet: (value) => dispatch(actionDarkMode.set(value)),
-  };
-};
+const mapStateToProps = (state) => ({ darkMode: state.darkMode });
+const mapDispatchToProps = (dispatch) => ({
+  darkModeSet: (value) => dispatch(actionDarkMode.set(value)),
+});
 export default connect(mapStateToProps, mapDispatchToProps)(App);

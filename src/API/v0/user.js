@@ -1,6 +1,4 @@
-import axios from 'axios';
 import { request } from 'graphql-request';
-import { resolvePath } from 'react-router-dom';
 
 const url = process.env.REACT_APP_API_URL;
 

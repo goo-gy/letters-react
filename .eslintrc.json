@@ -19,7 +19,7 @@
       }
     }
   },
-  "plugins": ["react"],
+  // "plugins": ["react"],
   "rules": {
     "linebreak-style": "off",
     "react/prop-types": "off",

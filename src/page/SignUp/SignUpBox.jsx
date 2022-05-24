@@ -1,23 +1,18 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // local
 import LogoImage from 'shared/LogoImage';
-
-const users = [
-  {
-    email: 'googy@googy.com',
-    name: 'googy',
-    password: 'hohoho',
-  },
-];
+import userAPI from 'API/v0/user';
 
 const SignUpBox = () => {
   const [login, setLogin] = useState({
     email: '',
+    name: '',
     password: '',
     passwordCheck: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -25,12 +20,18 @@ const SignUpBox = () => {
     setLogin({ ...login, [name]: value });
   };
 
-  const handleLogin = (e) => {
-    const matchUser = users.filter(
-      (user) => user.email === login.email && user.password === login.password
-    );
-    if (matchUser.length === 1) console.log(matchUser[0].name);
-    else console.log('error');
+  const handleSignUp = async (e) => {
+    const success = await userAPI.signUp({
+      email: login.email,
+      name: login.name,
+      password: login.password,
+    });
+    if (success) {
+      alert('회원가입에 성공하였습니다.');
+      navigate('/login');
+    } else {
+      alert('회원가입에 실패하였습니다.');
+    }
   };
 
   return (
@@ -52,7 +53,7 @@ const SignUpBox = () => {
               <input
                 id="email"
                 name="email"
-                type="email"
+                type="text"
                 autoComplete="email"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pointBlue focus:border-pointBlue dark:focus:border-pointWarm dark:focus:ring-pointWarm sm:text-sm"
@@ -63,17 +64,17 @@ const SignUpBox = () => {
 
           <div>
             <label
-              htmlFor="email"
+              htmlFor="name"
               className="block text-sm font-medium text-gray-700"
             >
               Name
             </label>
             <div className="mt-1">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pointBlue focus:border-pointBlue dark:focus:border-pointWarm dark:focus:ring-pointWarm sm:text-sm"
                 onChange={handleChange}
@@ -125,7 +126,7 @@ const SignUpBox = () => {
             <button
               type="submit"
               className="w-full flex justify-center text-lg my-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:bg-pointBlue dark:bg-componentWarm dark:hover:bg-pointWarm"
-              onClick={handleLogin}
+              onClick={handleSignUp}
             >
               Sign up
             </button>

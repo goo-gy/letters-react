@@ -5,7 +5,7 @@ import Section from 'shared/Section';
 //
 import SignUpBox from './SignUpBox';
 
-const Login = () => {
+const SignUp = () => {
   return (
     <div className="py-24 align-middle">
       <Section className="m-auto align-middle">
@@ -15,4 +15,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

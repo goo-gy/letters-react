@@ -1,7 +1,6 @@
 import React from 'react';
 
 // shared
-import TopHeader from 'shared/TopHeader';
 import Section from 'shared/Section';
 
 // local

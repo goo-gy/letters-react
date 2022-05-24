@@ -17,18 +17,17 @@ function SignIn({ signIn }) {
     setLogin({ ...login, [name]: value });
   };
 
-  const handleLogin = () => {
-    userAPI
-      .signIn({ email: login.email, password: login.password })
-      .then((user) => {
-        if (user) {
-          signIn(user);
-          navigate('/');
-        } else {
-          alert('로그인에 실패하였습니다.');
-        }
-      })
-      .catch(() => {});
+  const handleLogin = async () => {
+    const user = await userAPI.signIn({
+      email: login.email,
+      password: login.password,
+    });
+    if (user) {
+      signIn(user);
+      navigate('/');
+    } else {
+      alert('로그인에 실패하였습니다.');
+    }
   };
 
   return (

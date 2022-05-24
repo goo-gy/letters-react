@@ -70,7 +70,6 @@ function Chat({ loginUser }) {
     setChatLogList((prevChatLogList) => [...prevChatLogList, chatLog]);
   };
   const handleReceiveJoin = ({ user, time }) => {
-    console.log(user);
     setChatLogList((prevChatLogList) => [
       ...prevChatLogList,
       { user, msg: `${user.name}님이 입장하셨습니다.`, time },

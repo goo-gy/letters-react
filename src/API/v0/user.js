@@ -1,6 +1,6 @@
 import { request } from 'graphql-request';
 
-const url = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 
 // query
 async function getUsers() {
@@ -14,7 +14,7 @@ async function getUsers() {
     }
   `;
   try {
-    const result = await request(url, query);
+    const result = await request(API_URL, query);
     const data = await result;
     return data.users;
   } catch (error) {
@@ -34,16 +34,26 @@ async function signIn({ email, password }) {
         }
       }
     `;
-    const result = await request(url, query);
-    const data = await result;
+    const data = await request(API_URL, query);
     return data.signIn;
   } catch (error) {
     return error;
   }
 }
 
-// mutate
+async function signUp({ email, name, password }) {
+  try {
+    const query = `
+    mutation {
+        signUp (email:"${email}", name: "${name}", password: "${password}")
+      }
+    `;
+    const result = await request(API_URL, query);
+    const data = await result;
+    return data.signUp;
+  } catch (error) {
+    return error;
+  }
+}
 
-//
-
-export default { getUsers, signIn };
+export default { getUsers, signIn, signUp };

@@ -16,44 +16,32 @@ const event = {
   disconnect: 'disconnect',
   joinRoom: 'join_room',
   leaveRoom: 'leave_room',
-  msg: 'msg',
+  message: 'message',
 };
 
 function Chat({ loginUser }) {
-  const [msg, setMsg] = useState('');
+  const [message, setMsg] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
   const [roomPeople, setRoomPeople] = useState([]);
 
-  const sendDone = ({ user, time }) => {
-    setChatLogList((prevChatLogList) => [
-      ...prevChatLogList,
-      {
-        user,
-        msg,
-        time,
-      },
-    ]);
+  const messageDone = () => {
     setMsg('');
   };
 
   const handleSend = () => {
-    if (msg) {
-      socket.emit(event.msg, { roomName: 'global', msg }, sendDone);
+    if (message) {
+      socket.emit(event.message, { room_id: 'global', message }, messageDone);
     }
   };
 
-  const joinDone = ({ people, user, time }) => {
-    setChatLogList((prevChatLogList) => [
-      ...prevChatLogList,
-      { user, msg: `${user.name}님이 입장하셨습니다.`, time },
-    ]);
+  const joinDone = ({ people }) => {
     setRoomPeople((prevPeople) => people);
   };
 
   const handleJoin = () => {
     socket.emit(
       event.joinRoom,
-      { token: loginUser.token, user: loginUser, roomName: 'global' },
+      { token: loginUser.token, user: loginUser, room_id: 'global' },
       joinDone
     );
   };
@@ -70,9 +58,10 @@ function Chat({ loginUser }) {
     setChatLogList((prevChatLogList) => [...prevChatLogList, chatLog]);
   };
   const handleReceiveJoin = ({ user, time }) => {
+    console.log('receive', user, time);
     setChatLogList((prevChatLogList) => [
       ...prevChatLogList,
-      { user, msg: `${user.name}님이 입장하셨습니다.`, time },
+      { user, message: `${user.name}님이 입장하셨습니다.`, time },
     ]);
     setRoomPeople((prevPeople) => [...prevPeople, user]);
   };
@@ -80,7 +69,7 @@ function Chat({ loginUser }) {
   const handleReceiveLeave = ({ user, time }) => {
     setChatLogList((prevChatLogList) => [
       ...prevChatLogList,
-      { user, msg: `${user.name}님이 퇴장하셨습니다.`, time },
+      { user, message: `${user.name}님이 퇴장하셨습니다.`, time },
     ]);
     setRoomPeople((prevPeople) =>
       prevPeople.filter((person) => person.id !== user.id)
@@ -90,12 +79,12 @@ function Chat({ loginUser }) {
   const handleLeave = () => {
     socket.emit(event.leaveRoom, {
       user: loginUser,
-      roomName: 'global',
+      room_id: 'global',
     });
   };
 
   useEffect(() => {
-    socket.on(event.msg, handleReceiveMsg);
+    socket.on(event.message, handleReceiveMsg);
     socket.on(event.joinRoom, handleReceiveJoin);
     socket.on(event.leaveRoom, handleReceiveLeave);
     if (loginUser.id) {
@@ -105,7 +94,7 @@ function Chat({ loginUser }) {
       if (loginUser.id) {
         handleLeave();
       }
-      socket.off(event.msg, handleReceiveMsg);
+      socket.off(event.message, handleReceiveMsg);
       socket.off(event.joinRoom, handleReceiveJoin);
       socket.off(event.leaveRoom, handleReceiveLeave);
     };
@@ -128,7 +117,7 @@ function Chat({ loginUser }) {
           >
             <input
               className="rounded border-2 w-full h-10 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
-              value={msg}
+              value={message}
               onChange={(e) => setMsg(e.target.value)}
             />
           </form>

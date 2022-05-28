@@ -30,7 +30,7 @@ function ChatLog({ chatLogList, loginUser }) {
                   </h3>
                   <p className="text-sm text-gray-500">{chatLog.time}</p>
                 </div>
-                <p className="text-sm ">{chatLog.msg}</p>
+                <p className="text-sm ">{chatLog.message}</p>
               </div>
             </div>
           </li>

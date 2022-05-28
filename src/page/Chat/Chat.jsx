@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // local
 import Section from 'shared/Section';
+import SimpleButton from 'shared/SimpleButton';
 import Member from './Component/Member';
 import ChatLog from './Component/ChatLog';
 
@@ -23,6 +25,8 @@ function Chat({ loginUser }) {
   const [message, setMsg] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
   const [roomPeople, setRoomPeople] = useState([]);
+
+  const navigate = useNavigate();
 
   const messageDone = () => {
     setMsg('');
@@ -78,10 +82,12 @@ function Chat({ loginUser }) {
   };
 
   const handleLeave = () => {
+    console.log('leave');
     socket.emit(event.leaveRoom, {
       user: loginUser,
       room_id: 'global',
     });
+    navigate('/');
   };
 
   useEffect(() => {
@@ -93,7 +99,8 @@ function Chat({ loginUser }) {
     }
     return () => {
       if (loginUser.id) {
-        handleLeave();
+        // TODO : active 상태 변경
+        // handleLeave();
       }
       socket.off(event.message, handleReceiveMsg);
       socket.off(event.joinRoom, handleReceiveJoin);
@@ -123,6 +130,7 @@ function Chat({ loginUser }) {
             />
           </form>
         </div>
+        <SimpleButton text={'Leave'} func={handleLeave} />
       </div>
     </Section>
   );

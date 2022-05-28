@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 function ChatLog({ chatLogList, loginUser }) {
+  // TODO: scroll
+  console.log(chatLogList);
   return (
     <div>
       <ul className="divide-y divide-componentSky dark:divide-componentWarm">
@@ -21,12 +23,12 @@ function ChatLog({ chatLogList, loginUser }) {
                 <div className="flex items-center justify-between">
                   <h3
                     className={`text-sm font-bold ${
-                      chatLog.user?.id === loginUser.id
+                      chatLog.user_id === loginUser.id
                         ? ' text-violet-700 dark:text-violet-700'
                         : 'text-componentSky dark:text-componentWarm'
                     }`}
                   >
-                    {chatLog.user?.name}
+                    {chatLog.user_name}
                   </h3>
                   <p className="text-sm text-gray-500">{chatLog.time}</p>
                 </div>

@@ -34,8 +34,10 @@ function Chat({ loginUser }) {
     }
   };
 
-  const joinDone = ({ people }) => {
+  const joinDone = ({ people, chatList }) => {
     setRoomPeople((prevPeople) => people);
+    console.log(chatList);
+    setChatLogList((prevChatLogList) => chatList);
   };
 
   const handleJoin = () => {
@@ -58,7 +60,6 @@ function Chat({ loginUser }) {
     setChatLogList((prevChatLogList) => [...prevChatLogList, chatLog]);
   };
   const handleReceiveJoin = ({ user, time }) => {
-    console.log('receive', user, time);
     setChatLogList((prevChatLogList) => [
       ...prevChatLogList,
       { user, message: `${user.name}님이 입장하셨습니다.`, time },

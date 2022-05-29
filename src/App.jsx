@@ -10,6 +10,7 @@ import Home from 'page/Home/Home';
 import Login from 'page/Login/Login';
 import SignUp from 'page/SignUp/SignUp';
 import Dashboard from 'page/Dashboard/Dashboard';
+import ChatRoom from 'page/ChatRoom/ChatRoom';
 import Chat from 'page/Chat/Chat';
 
 function App(props) {
@@ -30,7 +31,8 @@ function App(props) {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat" element={<ChatRoom />} />
+          <Route path="/chat/:roomId" element={<Chat />} />
         </Routes>
       </div>
     </div>

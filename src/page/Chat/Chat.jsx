@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // local
 import Section from 'shared/Section';
 import SimpleButton from 'shared/SimpleButton';
 import Member from './Component/Member';
 import ChatLog from './Component/ChatLog';
+import AuthUser from 'shared/AuthUser';
 
 const url = process.env.REACT_APP_CHAT_URL;
 const socket = io.connect(url);
@@ -25,6 +26,7 @@ function Chat({ loginUser }) {
   const [message, setMsg] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
   const [roomPeople, setRoomPeople] = useState([]);
+  const { roomId } = useParams();
 
   const navigate = useNavigate();
 
@@ -34,20 +36,24 @@ function Chat({ loginUser }) {
 
   const handleSend = () => {
     if (message) {
-      socket.emit(event.message, { room_id: 'global', message }, messageDone);
+      socket.emit(event.message, { room_id: roomId, message }, messageDone);
     }
   };
 
-  const joinDone = ({ people, chatList }) => {
-    setRoomPeople((prevPeople) => people);
-    console.log(chatList);
-    setChatLogList((prevChatLogList) => chatList);
+  const joinDone = ({ success, people, chatList, error_msg }) => {
+    if (success) {
+      setRoomPeople((prevPeople) => people);
+      setChatLogList((prevChatLogList) => chatList);
+    } else {
+      alert(error_msg);
+      navigate('/');
+    }
   };
 
   const handleJoin = () => {
     socket.emit(
       event.joinRoom,
-      { token: loginUser.token, user: loginUser, room_id: 'global' },
+      { token: loginUser.token, user: loginUser, room_id: roomId },
       joinDone
     );
   };
@@ -108,31 +114,33 @@ function Chat({ loginUser }) {
     };
   }, [loginUser]);
   return (
-    <Section>
-      <div>
-        {roomPeople.map((person, index) => (
-          <Member key={index} name={person.name} />
-        ))}
-      </div>
-      <div>
-        <ChatLog chatLogList={chatLogList} />
-        <div className="my-5 mx-auto">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSend();
-            }}
-          >
-            <input
-              className="rounded border-2 w-full h-10 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
-              value={message}
-              onChange={(e) => setMsg(e.target.value)}
-            />
-          </form>
+    <AuthUser>
+      <Section>
+        <div>
+          {roomPeople.map((person, index) => (
+            <Member key={index} name={person.name} />
+          ))}
         </div>
-        <SimpleButton text={'Leave'} func={handleLeave} />
-      </div>
-    </Section>
+        <div>
+          <ChatLog chatLogList={chatLogList} />
+          <div className="my-5 mx-auto">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+            >
+              <input
+                className="rounded border-2 w-full h-10 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
+                value={message}
+                onChange={(e) => setMsg(e.target.value)}
+              />
+            </form>
+          </div>
+          <SimpleButton text={'Leave'} func={handleLeave} />
+        </div>
+      </Section>
+    </AuthUser>
   );
 }
 

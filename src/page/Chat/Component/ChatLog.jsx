@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 function ChatLog({ chatLogList, loginUser }) {
   // TODO: scroll
-  console.log(chatLogList);
+  useEffect(() => {
+    const divChat = document.getElementById('chat_log');
+    divChat.scrollTop = divChat.scrollHeight;
+  }, [chatLogList]);
   return (
-    <div>
-      <ul className="divide-y divide-componentSky dark:divide-componentWarm">
+    <div id="chat_log" className="max-h-[60vh] overflow-y-scroll">
+      <ul className="divide-y divide-componentSky dark:divide-componentWarm p-5">
         {chatLogList.map((chatLog, index) => (
           <li key={index} className="py-4">
             <div className="flex space-x-3">

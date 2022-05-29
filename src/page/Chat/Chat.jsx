@@ -93,7 +93,7 @@ function Chat({ loginUser }) {
       user: loginUser,
       room_id: 'global',
     });
-    navigate('/');
+    navigate('/chat');
   };
 
   useEffect(() => {

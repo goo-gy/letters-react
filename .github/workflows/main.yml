@@ -70,4 +70,4 @@ jobs:
         run: |
           docker stop ${{ env.NAME }}
           docker rm ${{ env.NAME }}
-          docker run -d -p 80:3000 --name ${{ env.NAME }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 80:3000 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:latest

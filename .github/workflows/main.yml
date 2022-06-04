@@ -64,7 +64,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.ACTION_TOKEN }}
       # 80: 3000 연결
       - name: Docker run
         run: |

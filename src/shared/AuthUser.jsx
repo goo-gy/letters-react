@@ -13,7 +13,6 @@ const AuthUser = ({ user, children }) => {
         window.localStorage.getItem('persist:root')
       );
       const user = JSON.parse(reduxState.user);
-      console.log('call', user);
       if (!user.token) {
         navigate('/login');
       }

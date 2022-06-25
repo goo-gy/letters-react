@@ -25,6 +25,8 @@ function SignIn({ signIn }) {
     if (user) {
       signIn(user);
       navigate('/');
+      console.log(user);
+      // alert(usier)
     } else {
       alert('로그인에 실패하였습니다.');
     }

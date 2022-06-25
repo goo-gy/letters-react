@@ -63,12 +63,16 @@ function Chat({ loginUser }) {
   };
 
   const handleAuth = () => {
+    console.log('token', loginUser.token);
     socket.emit(event.auth, { token: loginUser.token }, authDone);
   };
 
   const handleReceiveMsg = (chatLog) => {
+    console.log('receive', chatLog);
     setChatLogList((prevChatLogList) => [...prevChatLogList, chatLog]);
   };
+
+  console.log(chatLogList);
   const handleReceiveJoin = ({ user, time }) => {
     setChatLogList((prevChatLogList) => [
       ...prevChatLogList,
@@ -100,6 +104,7 @@ function Chat({ loginUser }) {
     socket.on(event.message, handleReceiveMsg);
     socket.on(event.joinRoom, handleReceiveJoin);
     socket.on(event.leaveRoom, handleReceiveLeave);
+    console.log(loginUser);
     if (loginUser.id) {
       handleAuth();
     }

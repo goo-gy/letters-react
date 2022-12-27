@@ -6,14 +6,14 @@ const AuthUser = ({ user, children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user.token) {
+    if (user.id) {
       // TODO : check with API
     } else {
       const reduxState = JSON.parse(
         window.localStorage.getItem('persist:root')
       );
       const user = JSON.parse(reduxState.user);
-      if (!user.token) {
+      if (!user.id) {
         navigate('/login');
       }
     }

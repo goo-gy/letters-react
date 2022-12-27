@@ -18,15 +18,17 @@ function SignIn({ signIn }) {
   };
 
   const handleLogin = async () => {
-    const user = await userAPI.signIn({
+    const user = {
+      id: 1,
       email: login.email,
-      password: login.password,
-    });
+      name: login.email,
+      token: '',
+      authList: [],
+    };
     if (user) {
       signIn(user);
       navigate('/');
       console.log(user);
-      // alert(usier)
     } else {
       alert('로그인에 실패하였습니다.');
     }

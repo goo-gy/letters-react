@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 function ChatLog({ chatLogList, loginUser }) {
-  // TODO: scroll
   useEffect(() => {
     const divChat = document.getElementById('chat_log');
     divChat.scrollTop = divChat.scrollHeight;
   }, [chatLogList]);
+
+  console.log(chatLogList);
   return (
     <div id="chat_log" className="max-h-[60vh] overflow-y-scroll">
       <ul className="divide-y divide-componentSky dark:divide-componentWarm p-5">
@@ -26,12 +27,12 @@ function ChatLog({ chatLogList, loginUser }) {
                 <div className="flex items-center justify-between">
                   <h3
                     className={`text-sm font-bold ${
-                      chatLog.user_id === loginUser.id
+                      chatLog.sender === loginUser.name
                         ? ' text-violet-700 dark:text-violet-700'
                         : 'text-componentSky dark:text-componentWarm'
                     }`}
                   >
-                    {chatLog.user_name}
+                    {chatLog.sender}
                   </h3>
                   <p className="text-sm text-gray-500">{chatLog.time}</p>
                 </div>

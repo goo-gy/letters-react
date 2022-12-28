@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+// import SockJs from 'socketjs-client';
+import { Client } from '@stomp/stompjs';
 import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -11,16 +12,15 @@ import ChatLog from './Component/ChatLog';
 import AuthUser from 'shared/AuthUser';
 
 const url = process.env.REACT_APP_CHAT_URL;
-const socket = io.connect(url);
-
-const event = {
-  auth: 'auth',
-  connection: 'connection',
-  disconnect: 'disconnect',
-  joinRoom: 'join_room',
-  leaveRoom: 'leave_room',
-  message: 'message',
-};
+const client = new Client({
+  brokerURL: 'ws://localhost:8080/letters-chat-server',
+  debug: function (str) {
+    console.log('Debug:', str);
+  },
+  reconnectDelay: 5000,
+  heartbeatIncoming: 4000,
+  heartbeatOutgoing: 4000,
+});
 
 function Chat({ loginUser }) {
   const [message, setMsg] = useState('');
@@ -30,92 +30,41 @@ function Chat({ loginUser }) {
 
   const navigate = useNavigate();
 
-  const messageDone = () => {
-    setMsg('');
-  };
-
   const handleSend = () => {
-    if (message) {
-      socket.emit(event.message, { room_id: roomId, message }, messageDone);
+    if (message && client.connected) {
+      const payload = JSON.stringify({
+        channel: roomId,
+        sender: loginUser.name,
+        message: message,
+      });
+      client.publish({
+        destination: '/pub/chat',
+        body: payload,
+      });
     }
   };
 
-  const joinDone = ({ success, people, chatList, error_msg }) => {
-    if (success) {
-      setRoomPeople((prevPeople) => people);
-      setChatLogList((prevChatLogList) => chatList);
-    } else {
-      alert(error_msg);
-      navigate('/');
-    }
-  };
-
-  const handleJoin = () => {
-    socket.emit(
-      event.joinRoom,
-      { token: loginUser.token, user: loginUser, room_id: roomId },
-      joinDone
-    );
-  };
-
-  const authDone = () => {
-    handleJoin();
-  };
-
-  const handleAuth = () => {
-    console.log('token', loginUser.token);
-    socket.emit(event.auth, { token: loginUser.token }, authDone);
-  };
-
-  const handleReceiveMsg = (chatLog) => {
-    console.log('receive', chatLog);
-    setChatLogList((prevChatLogList) => [...prevChatLogList, chatLog]);
-  };
-
-  console.log(chatLogList);
-  const handleReceiveJoin = ({ user, time }) => {
-    setChatLogList((prevChatLogList) => [
-      ...prevChatLogList,
-      { user, message: `${user.name}님이 입장하셨습니다.`, time },
-    ]);
-    setRoomPeople((prevPeople) => [...prevPeople, user]);
-  };
-
-  const handleReceiveLeave = ({ user, time }) => {
-    setChatLogList((prevChatLogList) => [
-      ...prevChatLogList,
-      { user, message: `${user.name}님이 퇴장하셨습니다.`, time },
-    ]);
-    setRoomPeople((prevPeople) =>
-      prevPeople.filter((person) => person.id !== user.id)
-    );
+  const handleReceiveMsg = ({ body }) => {
+    const chatData = JSON.parse(body);
+    setChatLogList((prevChatLogList) => [...prevChatLogList, chatData]);
   };
 
   const handleLeave = () => {
-    console.log('leave');
-    socket.emit(event.leaveRoom, {
-      user: loginUser,
-      room_id: 'global',
-    });
     navigate('/chat');
   };
 
   useEffect(() => {
-    socket.on(event.message, handleReceiveMsg);
-    socket.on(event.joinRoom, handleReceiveJoin);
-    socket.on(event.leaveRoom, handleReceiveLeave);
-    console.log(loginUser);
-    if (loginUser.id) {
-      handleAuth();
+    if (loginUser.name) {
+      client.activate();
+      client.onConnect = () => {
+        client.subscribe(`/sub/chat/${roomId}`, handleReceiveMsg);
+      };
+      client.onStompError = () => {};
     }
     return () => {
-      if (loginUser.id) {
-        // TODO : active 상태 변경
-        // handleLeave();
+      if (loginUser.name) {
+        client.deactivate();
       }
-      socket.off(event.message, handleReceiveMsg);
-      socket.off(event.joinRoom, handleReceiveJoin);
-      socket.off(event.leaveRoom, handleReceiveLeave);
     };
   }, [loginUser]);
   return (

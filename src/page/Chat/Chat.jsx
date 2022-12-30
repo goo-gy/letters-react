@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-// import SockJs from 'socketjs-client';
-import { Client } from '@stomp/stompjs';
+import React, { useState, useEffect, useRef } from 'react';
+import SockJsClient from 'react-stomp';
 import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -11,18 +10,10 @@ import Member from './Component/Member';
 import ChatLog from './Component/ChatLog';
 import AuthUser from 'shared/AuthUser';
 
-const url = process.env.REACT_APP_CHAT_URL;
-const client = new Client({
-  brokerURL: 'ws://localhost:8080/letters-chat-server',
-  debug: function (str) {
-    console.log('Debug:', str);
-  },
-  reconnectDelay: 5000,
-  heartbeatIncoming: 4000,
-  heartbeatOutgoing: 4000,
-});
+const CHAT_URL = process.env.REACT_APP_CHAT_URL;
 
 function Chat({ loginUser }) {
+  const clientRef = useRef({});
   const [message, setMsg] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
   const [roomPeople, setRoomPeople] = useState([]);
@@ -31,21 +22,17 @@ function Chat({ loginUser }) {
   const navigate = useNavigate();
 
   const handleSend = () => {
-    if (message && client.connected) {
+    if (message) {
       const payload = JSON.stringify({
         channel: roomId,
         sender: loginUser.name,
         message: message,
       });
-      client.publish({
-        destination: '/pub/chat',
-        body: payload,
-      });
+      clientRef.current.sendMessage('/pub/chat', payload);
     }
   };
 
-  const handleReceiveMsg = ({ body }) => {
-    const chatData = JSON.parse(body);
+  const handleReceiveMsg = (chatData) => {
     setChatLogList((prevChatLogList) => [...prevChatLogList, chatData]);
   };
 
@@ -55,15 +42,9 @@ function Chat({ loginUser }) {
 
   useEffect(() => {
     if (loginUser.name) {
-      client.activate();
-      client.onConnect = () => {
-        client.subscribe(`/sub/chat/${roomId}`, handleReceiveMsg);
-      };
-      client.onStompError = () => {};
     }
     return () => {
       if (loginUser.name) {
-        client.deactivate();
       }
     };
   }, [loginUser]);
@@ -88,6 +69,12 @@ function Chat({ loginUser }) {
                 className="rounded border-2 w-full h-10 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
                 value={message}
                 onChange={(e) => setMsg(e.target.value)}
+              />
+              <SockJsClient
+                url={`${CHAT_URL}/letters-chat-server`}
+                topics={[`/sub/chat/${roomId}`]}
+                onMessage={handleReceiveMsg}
+                ref={clientRef}
               />
             </form>
           </div>

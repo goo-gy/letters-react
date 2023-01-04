@@ -23,11 +23,13 @@
     "react-stomp": "^5.1.0",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
+    "serve": "^14.1.2",
     "socket.io-client": "^4.4.1",
     "socketjs-client": "^1.0.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "pro": "react-scripts build && serve -s build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -1,0 +1,8 @@
+version: '3.0'
+
+services:
+  frontend:
+    container_name: letters_frontend
+    build: .
+    ports:
+      - '3000:3000'

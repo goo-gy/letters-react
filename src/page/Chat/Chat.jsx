@@ -14,7 +14,7 @@ const CHAT_URL = process.env.REACT_APP_CHAT_URL;
 
 function Chat({ loginUser }) {
   const clientRef = useRef({});
-  const [message, setMsg] = useState('');
+  const [message, setMessage] = useState('');
   const [chatLogList, setChatLogList] = useState([]);
   const [roomPeople, setRoomPeople] = useState([]);
   const { roomId } = useParams();
@@ -29,6 +29,7 @@ function Chat({ loginUser }) {
         message: message,
       });
       clientRef.current.sendMessage('/pub/chat', payload);
+      setMessage('');
     }
   };
 
@@ -65,11 +66,18 @@ function Chat({ loginUser }) {
                 handleSend();
               }}
             >
-              <input
-                className="rounded border-2 w-full h-10 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
-                value={message}
-                onChange={(e) => setMsg(e.target.value)}
-              />
+              <div className="flex flex-row gap-2">
+                <div className="basis-5/6">
+                  <input
+                    className="rounded border-2 w-full h-12 bg-white border-componentSky text-componentSky hover:border-pointBlue hover:text-pointBlue dark:border-componentWarm dark:text-componentWarm dark:hover:border-pointWarm dark:hover:text-pointWarm"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                </div>
+                <div className="basis-1/6">
+                  <SimpleButton text={'Send'} func={handleSend} />
+                </div>
+              </div>
               <SockJsClient
                 url={`${CHAT_URL}/letters-chat-server`}
                 topics={[`/sub/chat/${roomId}`]}

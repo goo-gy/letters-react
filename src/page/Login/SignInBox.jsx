@@ -41,28 +41,34 @@ function SignIn({ signIn }) {
         {/* <img className="mx-auto h-12 w-auto" src={Logo} alt="Workflow" /> */}
         <p className="mt-2 p-5 text-center text-sm text-gray-600"> </p>
       </div>
-      <div className="space-y-6">
-        <div>
-          <div className="mt-1">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 sm:text-sm focus:outline-none focus:border-pointBlue focus:ring-pointBlue dark:focus:border-pointWarm dark:focus:ring-pointWarm"
-                onChange={handleChange}
-              />
-            </label>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin();
+        }}
+      >
+        <div className="space-y-6">
+          <div>
+            <div className="mt-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                name
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 sm:text-sm focus:outline-none focus:border-pointBlue focus:ring-pointBlue dark:focus:border-pointWarm dark:focus:ring-pointWarm"
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
           </div>
-        </div>
 
-        <div>
+          {/* <div>
           <div className="mt-1">
             <label
               htmlFor="password"
@@ -106,29 +112,33 @@ function SignIn({ signIn }) {
               Forgot your password?
             </Link>
           </div>
-        </div>
+        </div> */}
 
-        <div>
-          <button
-            type="submit"
-            className="w-full flex justify-center text-lg my-1 py-1 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:bg-pointBlue dark:bg-componentWarm dark:hover:bg-pointWarm"
-            onClick={handleLogin}
-          >
-            Sign in
-          </button>
-          <Link
+          <div>
+            <button
+              type="submit"
+              className="w-full flex justify-center text-lg my-1 py-1 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:bg-pointBlue dark:bg-componentWarm dark:hover:bg-pointWarm"
+              onClick={handleLogin}
+            >
+              Sign in
+            </button>
+            {/* <Link
             to="/signup"
             className="w-full flex justify-center text-lg my-1 py-1 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-componentSky hover:bg-pointBlue dark:bg-componentWarm dark:hover:bg-pointWarm"
           >
             Sign up
-          </Link>
+          </Link> */}
+          </div>
         </div>
-      </div>
+      </form>
 
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300" />
+            <div
+              className="w-full border
+            -t border-gray-300"
+            />
           </div>
           <div className="relative flex justify-center text-sm">
             <span className="px-2 bg-white text-gray-500">
@@ -197,7 +207,7 @@ function SignIn({ signIn }) {
             </Link>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
